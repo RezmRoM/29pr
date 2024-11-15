@@ -1,0 +1,47 @@
+<div class="search-results">
+    <h1>Результаты поиска</h1>
+    
+    <div class="flights-container">
+        <h2>Рейсы туда</h2>
+        <form id="flights-form">
+            <table class="flights-table">
+                <thead>
+                    <tr>
+                        <th>Выбор</th>
+                        <th>Рейс</th>
+                        <th>Откуда</th>
+                        <th>Куда</th>
+                        <th>Время вылета</th>
+                        <th>Время прилета</th>
+                        <th>Цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="radio" name="outbound" value="1" required></td>
+                        <td>SU-1234</td>
+                        <td>Москва</td>
+                        <td>Санкт-Петербург</td>
+                        <td>10:00</td>
+                        <td>11:30</td>
+                        <td>5000 ₽</td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" name="outbound" value="2" required></td>
+                        <td>SU-1236</td>
+                        <td>Москва</td>
+                        <td>Санкт-Петербург</td>
+                        <td>14:00</td>
+                        <td>15:30</td>
+                        <td>6000 ₽</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="buttons">
+                <button type="button" class="btn" data-page="main">Назад</button>
+                <button type="submit" class="btn">Забронировать</button>
+            </div>
+        </form>
+    </div>
+</div> 

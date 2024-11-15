@@ -1,0 +1,47 @@
+<div class="register-page">
+    <h1>Регистрация</h1>
+    
+    <div class="form-container">
+        <form id="register-form">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Имя</label>
+                <input type="text" name="firstName" pattern="[а-яА-ЯёЁ\s]{2,30}" required 
+                       title="Только русские буквы, от 2 до 30 символов">
+            </div>
+            
+            <div class="form-group">
+                <label>Фамилия</label>
+                <input type="text" name="lastName" pattern="[а-яА-ЯёЁ\s]{2,30}" required
+                       title="Только русские буквы, от 2 до 30 символов">
+            </div>
+            
+            <div class="form-group">
+                <label>Телефон</label>
+                <input type="tel" name="phone" pattern="\+7\(\d{3}\)\d{3}-\d{2}-\d{2}" required
+                       title="Формат: +7(999)999-99-99">
+            </div>
+            
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" name="password" id="password" 
+                       pattern="[A-Za-z0-9!@#$%^&*]{6,}" required
+                       title="Минимум 6 символов, латинские буквы, цифры и спецсимволы">
+            </div>
+            
+            <div class="form-group">
+                <label>Подтверждение пароля</label>
+                <input type="password" name="confirmPassword" id="confirmPassword" required>
+            </div>
+            
+            <div class="buttons">
+                <button type="button" class="btn" data-page="login">Назад</button>
+                <button type="submit" class="btn">Зарегистрироваться</button>
+            </div>
+        </form>
+    </div>
+</div> 

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+	<!-- 
+	Представляем первый вариант реализации (простой),
+	во втором варианте мы предложим более продвинутое решение, требующее больше времени на реализацию
+	--!! код в некоторых местах можно оптимизировать, но в целях наглядности оставляем как есть
+	-->
+	<head>
+		<title>Выбор места</title>
+		<!-- минимальная стилизация страницы -->
+		<style>
+			body {
+				font-family: Arial;
+			}
+			input {
+				height: 40px;
+				padding-left:  5px;
+				font-size:  14pt;
+			}
+			table {
+				text-align:  center;
+				background-color: black;
+			}
+			td, th {
+				padding: 5px;
+				background-color:  white;
+			}
+			table.seat td, table.seat th {
+				padding: 20px;
+			}
+			table.seat td.select {
+				background-color:  #888;
+			}
+		</style>
+
+		<script>
+			// весь скриптовый функционал состоит из трех небольших функций
+			// именно такое решение мы использовали при выполнении модуля
+			// быстро, функционально, соответствует требованиям задания
+			
+			// функция обнуления выбранных мест
+			function f_clear_select() {
+				// обращение к ячейкам таблицы-схемы самолета и удаление у каждой класса "select"
+				// используем цикл forEach и стрелочную функцию
+				document.querySelectorAll("td").forEach(td => td.classList.remove("select"));
+				// обращение к ячейкам таблицы пассажиров, и вставка текста -Отсутствует-
+				// используем цикл forEach и стрелочную функцию
+				document.querySelectorAll(".pass").forEach(td => td.innerHTML = "Отсутствует");
+				
+			}
+			
+			// функция выбора места
+			function f_select_seat(id) {
+				let seat = prompt("Выберите место");
+				
+				// если нажата кнопка Отмена
+				if(seat == null) return;
+				
+				let place = document.getElementById(seat);
+				
+				if(place != null) {
+					if(place.classList.contains("select")) alert("Место занято");
+					else {
+						// записываем в таблицу выбранное место
+						document.getElementById("pass_"+id).innerHTML = seat;
+						// подсветка выбранного места
+						f_draw_selected();
+					}
+				} else alert("Такого места не существует");
+				
+			}
+			
+			// функция подсветки выбранного места
+			function f_draw_selected() {
+				passengers = document.querySelectorAll(".pass");
+				document.querySelectorAll("table.seat td").forEach(elem => elem.classList.remove("select"));
+				passengers.forEach(elem => {
+					td = document.getElementById(elem.innerHTML);
+					if(td != null) td.classList.add("select");
+				});
+			}
+		</script>
+	</head>
+
+	<body>
+		<h1>Модуль 3. Клиентское программирование регионального чемпионата WorldSkills (FrontEnd)</h1>
+		<h1>Задание: Выбор места бронирования</h1>
+		<p>
+		<b>Из задания:</b> Экран с выбором места – на данном экране должна быть представлена схема самолета
+		и список пассажиров. Должна быть возможность выбрать пассажира, а после для него
+		место. При нажатии на кнопку “Back” экран должен смениться на предыдущий без
+		сохранения выбранных мест. При нажатии на кнопку “Confirm” информация о выбранных
+		местах должна быть сохранена и пользователь должен быть перенаправлен на
+		предыдущую страницу.
+		</p>
+		
+		<h2>Пассажиры</h2>
+		
+		<!--
+		в Задании модуля таблица пассажиров строится динамически,
+		берется (и выводится) из соответсвующего массива объектов
+		впрочем это у нас, у вас может быть по другому,
+		ну а здесь просто строим статичную таблицу для наглядности
+		-->
+		<table>
+			<tr>
+				<th>Фамилия</th>
+				<th>Имя</th>
+				<th>День рождения</th>
+				<th>Номер документа</th>
+				<th>Место</th>
+				<th>Действие</th>
+			</tr>
+			<tr>
+				<td>Иванов</td>
+				<td>Иван</td>
+				<td>01.01.2001</td>
+				<td>1234567891</td>
+				<td class="pass" id="pass_1">Отсутствует</td>
+				<!-- 
+				идентификаторы пассажира тоже будут браться из объекта, 
+				ну а здесь просто пропишем идентификатор в аргументе функции f_select_seat
+				-->
+				<td><input type="button" value="Выбрать место" onclick="f_select_seat(1)" /></td>
+			</tr>
+			<tr>
+				<td>Егоров</td>
+				<td>Егор</td>
+				<td>02.02.2002</td>
+				<td>1987654321</td>
+				<td class="pass" id="pass_2">Отсутствует</td>
+				<td><input type="button" value="Выбрать место" onclick="f_select_seat(2)" /></td>
+			</tr>
+			<tr>
+				<td>Сергеев</td>
+				<td>Сергей</td>
+				<td>03.03.2003</td>
+				<td>1234519876</td>
+				<td class="pass" id="pass_3">Отсутствует</td>
+				<td><input type="button" value="Выбрать место" onclick="f_select_seat(3)" /></td>
+			</tr>
+		</table>
+		<br>
+		<input type="button" value="Очистить все места" onclick="f_clear_select()" />
+		<br><br>
+		
+		<h2>Места</h2>
+		
+		<!-- 
+		таблица-схема самолета
+		слабое место реализации задания (достаточно долго выводить разметку таблицы)
+		пробовали делать программно - быстрее не получается
+		если у кого то есть решение - пишите)
+		-->
+		<table class = "seat">
+			<tr>
+				<td id = "1A">1A</td>
+				<td id = "1B">1B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "1C">1C</td>
+				<td id = "1D">1D</td>
+			</tr>
+			<tr>
+				<td id = "2A">2A</td>
+				<td id = "2B">2B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "2C">2C</td>
+				<td id = "2D">2D</td>
+			</tr>
+			<tr>
+				<td id = "3A">3A</td>
+				<td id = "3B">3B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "3C">3C</td>
+				<td id = "3D">3D</td>
+			</tr>
+			<tr>
+				<td id = "4A">4A</td>
+				<td id = "4B">4B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "4C">4C</td>
+				<td id = "4D">4D</td>
+			</tr>
+			<tr>
+				<td id = "5A">5A</td>
+				<td id = "5B">5B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "5C">5C</td>
+				<td id = "5D">5D</td>
+			</tr>
+			<tr>
+				<td id = "6A">6A</td>
+				<td id = "6B">6B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "6C">6C</td>
+				<td id = "6D">6D</td>
+			</tr>
+			<tr>
+				<td id = "7A">7A</td>
+				<td id = "7B">7B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "7C">7C</td>
+				<td id = "7D">7D</td>
+			</tr>
+			<tr>
+				<td id = "8A">8A</td>
+				<td id = "8B">8B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "8C">8C</td>
+				<td id = "8D">8D</td>
+			</tr>
+			<tr>
+				<td id = "9A">9A</td>
+				<td id = "9B">9B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "9C">9C</td>
+				<td id = "9D">9D</td>
+			</tr>
+			<tr>
+				<td id = "10A">10A</td>
+				<td id = "10B">10B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "10C">10C</td>
+				<td id = "10D">10D</td>
+			</tr>
+			<tr>
+				<td id = "11A">11A</td>
+				<td id = "11B">11B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "11C">11C</td>
+				<td id = "11D">11D</td>
+			</tr>
+			<tr>
+				<td id = "12A">12A</td>
+				<td id = "12B">12B</td>
+				<td style = 'width: 30px;'></td>
+				<td id = "12C">12C</td>
+				<td id = "12D">12D</td>
+			</tr>
+		</table>
+	</body>
+</html>
+
+<!-- 
+вот и все ...
+осталось выучить код наизусть и отшлифовать многократным тренингом...
+ -->
